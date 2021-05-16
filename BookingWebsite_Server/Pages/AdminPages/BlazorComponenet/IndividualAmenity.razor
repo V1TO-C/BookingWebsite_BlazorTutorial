@@ -1,0 +1,23 @@
+﻿<div class="bg-light border p-2 col-5" @onclick="(args)=> AmenityClickedSelection(args, Amenity.Name)">
+    <h4 class="text-secondary">Amenity - @Amenity.Id</h4>
+
+    Amenity's Name - @Amenity.Name <br />
+    Amenity's Description: @Amenity.Description
+    <br />
+    <EditDeleteButton IsAdmin="true"></EditDeleteButton>
+</div>
+
+@code {
+
+    [Parameter]
+    public BlazorAmenitines Amenity { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnSelectedAmenity { get; set; }
+
+    protected async Task AmenityClickedSelection(MouseEventArgs e, string name)
+    {
+        await OnSelectedAmenity.InvokeAsync(name);
+    }
+
+}
