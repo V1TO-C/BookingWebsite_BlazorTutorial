@@ -1,0 +1,135 @@
+﻿@page "/bindprop"
+
+<div class="bg-light border p-2">
+    <h2 class="bg-light border p-2">
+        First Room
+    </h2>
+
+    Room: @Room.RoomName
+    <br />
+    Price: @Room.Price
+    <br />
+    <input type="number" @bind-value="@Room.Price" @bind-value:event="oninput" />
+    <br />
+    <input type="checkbox" @bind-value="@Room.IsActive" checked="@(Room.IsActive?"checked":null)" /> &nbsp; Is Active
+    <br />
+    <span>
+        This room is @(Room.IsActive ? "Active":"Inactive")
+    </span>
+    <br />
+    <select @bind="SelectedRoomId">
+        @foreach (var item in Room.RoomProps)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+
+    </select> &nbsp;
+    <span>
+        Value: @{
+            if (SelectedRoomId == -1)
+            {
+                <span></span>
+            }
+            else
+            {
+                @Room.RoomProps[SelectedRoomId - 1].Value
+            }
+        }
+    </span>
+</div>
+
+<div>
+    <br />
+    <h2 class="text-info">Rooms List</h2>
+    <table class="table table-dark">
+        @foreach (var room in RoomsList)
+	    {
+		    <tr>
+                <td>
+                    <input type="text" @bind-value="@room.RoomName" @bind-value:event="oninput" />
+                </td>
+                <td>
+                    <input type="text" @bind-value="@room.Price" @bind-value:event="oninput" />
+                </td>
+                @foreach (var prop in room.RoomProps)
+                {
+                    <td>@prop.Name - @prop.Value</td>
+                }
+            </tr>
+	    }
+    </table>
+</div>
+
+<div><br />
+    @foreach (var room in RoomsList)
+    {
+    <p>@room.RoomName's ID:@room.Id and price: @room.Price </p>
+    }
+</div>
+
+@code{
+    int SelectedRoomId=-1;
+
+    List<BlazorRoom> RoomsList = new List<BlazorRoom>();
+
+    BlazorRoom Room = new Model.BlazorRoom()
+    {
+        Id = 1,
+        RoomName = "Villa Suite",
+        IsActive = true,
+        Price = 499,
+        RoomProps = new List<BlazorRoomProp>
+            {
+                new BlazorRoomProp { Id = 1, Name = "Sq Ft", Value = "100" },
+                new BlazorRoomProp { Id = 2, Name = "Occupancy", Value = "3" },
+            },
+    };
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        RoomsList.Add(new Model.BlazorRoom()
+        {
+            Id = 2,
+            RoomName = "Villa Suite Maxima",
+            IsActive = true,
+            Price = 1199,
+            RoomProps = new List<BlazorRoomProp>
+            {
+                new BlazorRoomProp { Id = 1, Name = "Sq Ft", Value = "720" },
+                new BlazorRoomProp { Id = 2, Name = "Occupancy", Value = "10" },
+            },
+        }
+        );
+
+        RoomsList.Add(new Model.BlazorRoom()
+        {
+            Id = 2,
+            RoomName = "Villa Suite One Bed Room",
+            IsActive = true,
+            Price = 299,
+            RoomProps = new List<BlazorRoomProp>
+            {
+                new BlazorRoomProp { Id = 1, Name = "Sq Ft", Value = "50" },
+                new BlazorRoomProp { Id = 2, Name = "Occupancy", Value = "1" },
+            },
+        }
+        );
+
+        RoomsList.Add(new Model.BlazorRoom()
+        {
+            Id = 3,
+            RoomName = "Villa Suite Two Bed Room",
+            IsActive = true,
+            Price = 399,
+            RoomProps = new List<BlazorRoomProp>
+            {
+                new BlazorRoomProp { Id = 1, Name = "Sq Ft", Value = "75" },
+                new BlazorRoomProp { Id = 2, Name = "Occupancy", Value = "2" },
+            },
+        }
+        );
+    }
+}
