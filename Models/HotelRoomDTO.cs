@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    class HotelRoomDTO
+    public class HotelRoomDTO
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Please enter room name")]
